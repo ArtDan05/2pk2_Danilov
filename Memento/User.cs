@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -61,5 +61,24 @@ namespace Memento
             _password = _caretacker.Memento.GetSavedState(out _role);
         }
         #endregion
+
+        /// <summary>
+        /// Получает информацию о текущем пользователе (если требует администратор или сам пользователь - выводится вся информация. Если гость - доступ запрещён)
+        /// </summary>
+        /// <param name="user"> Пользователь, который получает данные </param>
+        /// <returns></returns>
+        public string ToString(User user)
+        {
+            if (user._role == UserRole.Admin || user._login == _login) return $"Login: {_login}\n" +
+                                                     $"Password: {_password}\n" +
+                                                     $"Role: {_role}";
+            else if (user._role == UserRole.Guest) return "You don't have permission";
+
+            else return $"Login: {_login}\n" +
+                        $"Role: {_role.ToString()}";
+        }
+
+        public override string ToString() { return "ОШИБКА: используйте конструкцию с получающим пользователем (ToString(user))"; }
     }
 }
+
